@@ -44,4 +44,15 @@ defmodule XlsxParserTest do
     assert reason == "Error writing csv file: \"file mock write fail\""
   end
 
+  test "should return 1900 date format as default" do
+    root = File.cwd!
+    path = Path.join(root, "test/fixtures/small-sample.xlsx")
+    assert XlsxParser.get_workbook_basedate(path) == {:ok, ~D[1899-12-30]}
+  end
+
+  test "should return 1904 date format when specified" do
+    root = File.cwd!
+    path = Path.join(root, "test/fixtures/date1904.xlsx")
+    assert XlsxParser.get_workbook_basedate(path) == {:ok, ~D[1904-01-01]}
+  end
 end

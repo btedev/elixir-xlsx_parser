@@ -64,4 +64,21 @@ Given a path to an .xlsx, this function returns an array of worksheet names
                 |> Enum.map(&List.to_string(&1))}
     end
   end
+
+  @doc """
+  Determine if workbook dates are in 1900 or 1904 format.
+  """
+  def get_workbook_basedate(path) do
+    case XlsxParser.XlsxUtil.get_raw_content(path, "xl/workbook.xml", :zip) do
+      {:error, reason} -> {:error, reason}
+      {:ok, content} ->
+        import SweetXml
+        has1904 = xpath(content, ~x"//workbook/workbookPr/@date1904"l)
+        case has1904 == ['1'] do
+          true -> {:ok, ~D[1904-01-01]}
+          false -> {:ok, ~D[1899-12-30]}
+        end
+    end
+  end
 end
+
