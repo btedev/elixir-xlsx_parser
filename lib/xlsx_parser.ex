@@ -75,8 +75,8 @@ Given a path to an .xlsx, this function returns an array of worksheet names
         import SweetXml
         has1904 = xpath(content, ~x"//workbook/workbookPr/@date1904"l)
         case has1904 == ['1'] do
-          true -> {:ok, ~D[1904-01-01]}
-          false -> {:ok, ~D[1899-12-30]}
+          true -> {:ok, ~N[1904-01-01 00:00:00]}
+          false -> {:ok, ~N[1899-12-30 00:00:00]}
         end
     end
   end
