@@ -11,7 +11,7 @@ defmodule XlsxParser.XmlParser do
     #|> stream_tags(:c) #poor performance after ~5k elements
     |> xpath(~x"//worksheet/sheetData/row/c"l)
     |> Stream.map(&parse_from_element(&1,shared_strings))
-    |> Enum.into([])
+    #|> Enum.into([])
     ret
   end
 

@@ -17,7 +17,8 @@ defmodule XlsxParserTest do
   test "get_sheet_content success" do
     {status, ret} = XlsxParser.get_sheet_content("/path/to/my.xlsx", 1, ZipMock)
     assert status == :ok
-    assert ret == [{"A", 1, "a"}, {"A", 2, "two"}, {"A", 3, "c"}, {"B", 1, "d"},{"B", 2, "three"}, {"B", 3, "f"}]
+    list = Enum.into(ret, []) # BTE changed return from list to stream.
+    assert list == [{"A", 1, "a"}, {"A", 2, "two"}, {"A", 3, "c"}, {"B", 1, "d"},{"B", 2, "three"}, {"B", 3, "f"}]
   end
 
   defmodule FileMock do
