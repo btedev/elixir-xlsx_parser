@@ -7,12 +7,10 @@ defmodule XlsxParser.XmlParser do
 
   @spec parse_xml_content(String.t, map) :: [col_row_val]
   def parse_xml_content(xml, shared_strings) do
-    ret = xml
+    xml
     #|> stream_tags(:c) #poor performance after ~5k elements
     |> xpath(~x"//worksheet/sheetData/row/c"l)
     |> Stream.map(&parse_from_element(&1,shared_strings))
-    #|> Enum.into([])
-    ret
   end
 
   @spec parse_from_element(tuple, map) :: {String.t, integer, String.t}
@@ -60,5 +58,5 @@ defmodule XlsxParser.XmlParser do
                                     Dict.put_new(acc, String.to_char_list("#{si[:si]-1}"), text)
                                  end)
   end
-
 end
+
